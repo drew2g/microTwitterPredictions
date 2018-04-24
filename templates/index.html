@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+//            setTimeout(function(){
+//            $( "#trending" ).load( "/ #trending" );
+//             }, 2000);
+//         });
+            
+//          setTimeout(function(){
+//              $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+//         $.getJSON($SCRIPT_ROOT+"/_stuff",
+//             function(data) {
+//                 $("#cpuload").text(data.cpu+" %")
+//                 $("#ram").text(data.ram+" %")
+//                 $("#disk").text(data.disk+" %")
+//             });
+//          },5000);
+            
+            
+            
+                $('#next').click(function() {
+                   $.ajax("/").done(function (reply) {
+                      $('#container').html(reply);
+                   });
+                });
+            
+       
+
+        
+        
+
+                          
+      });
+        </script>
+
+    </head>
+    <div class="jumbotron jumbotron-fluid alert-primary" style="margin-bottom: 0px;">
+      <div class="container">
+        <h1 class="display-4">Welcome!</h1>
+        <p class="lead">Real Time Tweets</p>
+          <input type="button" id="next" value="Next" />
+          <div id="container"></div>
+          
+          
+          <div id = "cpuload">{{ tobeinserted | safe }}</div>
+          <div id = "ram"></div>
+          <div id = "disk"></div>
+      </div>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">RTPi</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Chris</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Drew</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method='POST' action="/index">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchQ" autocomplete="off" required>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+          
+           
+    <body>
+        
+         <div class="row justify-content-md-center">
+
+          <!----------------------- Trends Table ----------------------->
+          <table class="table table-striped table-light table-sm table-responsive col-sm-2 style="height: 100px" alt="Max-width 100%"">
+                <tr>
+                    <th>#</th>
+                    <th>Top Trends</th>
+                  </tr>
+              {% for i in range(10) %}
+                  <tr>
+                      <td>{{i + 1}}</td>
+                      <td>{{trending[i]['name']}}</td>
+              {% endfor %}
+          </table>
+             
+            <!------------------- Tweets Table ------------------->
+          <table id="trending" class="table table-striped table-light table-bordered table-sm table-responsive col-sm-8">
+          <caption>Recent Tweets about: {{sq}}</caption>
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Tweet</th>
+                    <th>url</th>
+                  </tr>
+
+              {% for tweet in tweets %}
+                  <tr>
+                      <td>{{ loop.index}}</td>
+                      <td>{{ tweet._json['user']['screen_name'] }}</td>
+                      <td>{{ tweet._json['text'] }}</td>
+                      <td><a href='https://twitter.com/{{ tweet._json['user']['screen_name'] }}/status/{{ tweet._json['id'] }}'>Visit Tweet</a></td>
+                  </tr>
+              {% endfor %}
+          </table>
+             
+        </div>
+        
+        
+
+    
+    
+    
+</html>
