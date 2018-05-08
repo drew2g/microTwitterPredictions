@@ -4,3 +4,7 @@ Utilizing the tweepy twitter repository, this app is able to pull the most recen
 ## Creators: Andrew Padilla, Chris Fong
 
 You will need your own twitter API tokens to use this application
+
+## Live example site: http://rtpi.duckdns.org:5000/
+
+This site is running current code and is running off a rapsberry pi model B @ Chris' house
